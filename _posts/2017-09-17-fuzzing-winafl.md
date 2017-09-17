@@ -516,7 +516,7 @@ The above unicode string is in fact our entiny from the test case, where the num
 First of all, I can' thank enough Ivan for porting the afl to Windows and creating this amazing project.
 Moreover thanks to Axel as well who's been actively contributing and adding amazing features.
 
-Shouts to my colleague <a href="https://twitter.com/NeomindMusic">Javier</a> (we all have one of those heap junkie friends, right?) for motivating me to write this blog, <a href="https://twitter.com/richinseattle">Richard</a> who's been answering my silly questions and helping me all this time, Mitja from the 0patch team for building this patch and finally <a href="https://twitter.com/_argp">argp</a> for teaching me a few tricks about fuzzing a few years ago!
+Shouts to my colleague <a href="https://twitter.com/NeomindMusic">Javier</a> (we all have one of those heap junkie friends, right?) for motivating me to write this blog, <a href="https://twitter.com/richinseattle">Richard</a> who's been answering my silly questions and helping me all this time, Mitja from the 0patch team for building this patch and finally <a href="https://twitter.com/_argp">Patroklo</a> for teaching me a few tricks about fuzzing a few years ago!
 
 <h2>References</h2>
 <a href="https://github.com/richinseattle/EvolutionaryKernelFuzzing/blob/master/slides/Evolutionary%20Kernel%20Fuzzing-BH2017-rjohnson-FINAL.pdf">Evolutionary Kernel Fuzzing-BH2017-rjohnson-FINAL.pdf</a><br/>
