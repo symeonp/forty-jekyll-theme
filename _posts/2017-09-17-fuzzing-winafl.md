@@ -512,8 +512,10 @@ The above unicode string is in fact our entiny from the test case, where the num
 (and the signature of the fuction: <code>Name *__stdcall Name::create(String *pS, const wchar_t *pch, int iLen, Atom *pAtomURN))</code>
 
 <h2>Conclusion</h2>
+As you can see, spending some time on Microsoft's APIs/documentation can be gold!
+Morover, refactoring some basic functions and pinpointing the issues that affect the performance can also lead to massive improvements!
 
-First of all, I can' thank enough Ivan for porting the afl to Windows and creating this amazing project.
+On that note I can't thank enough Ivan for porting the afl to Windows and creating this amazing project.
 Moreover thanks to Axel as well who's been actively contributing and adding amazing features.
 
 Shouts to my colleague <a href="https://twitter.com/NeomindMusic">Javier</a> (we all have one of those heap junkie friends, right?) for motivating me to write this blog, <a href="https://twitter.com/richinseattle">Richard</a> who's been answering my silly questions and helping me all this time, Mitja from the 0patch team for building this patch and finally <a href="https://twitter.com/_argp">Patroklo</a> for teaching me a few tricks about fuzzing a few years ago!
