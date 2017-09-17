@@ -398,7 +398,7 @@ C:\Users\IEUser\Desktop\xml_validate_results\fuzzer01\crashes>type id_000000_00
    <description>An in-depth look at creating applications with
    XML.</description>
 ```
-As you can see, if we provide some garbage either the xml version or the encoding, we will get the above crash.
+As you can see, if we provide some garbage either on the xml version or the encoding, we will get the above crash.
 Mitja also minimised the case as seen below:
 
 ```
