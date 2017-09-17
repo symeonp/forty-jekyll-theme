@@ -1,7 +1,7 @@
 ---
 layout: home
 title: Home
-landing-title: 'Hi, my name is Forty'
+landing-title: 'itsec stuff about fuzzing, vuln hunting and (hopefully) exploitation!'
 description: null
 image: null
 author: null
