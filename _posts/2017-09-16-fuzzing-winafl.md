@@ -7,7 +7,7 @@ image: assets/images/msxml_fuzz.png
 
 
 <h2>Introduction</h2>
-In this blog post, I'll write about how I tried to fuzz the MSXML library using the WinAFL fuzzer.
+In this blog post, I'll write about how I tried to fuzz the MSXML library using the <a href="https://github.com/ivanfratric/winafl">WinAFL</a> fuzzer.
 
 If you haven't played around with WinAFL, it's a massive fuzzer created by Ivan (Google's Project Zero) based on the <a href="http://lcamtuf.coredump.cx/afl/">lcumtuf's AFL</a>
 which uses DynamoRIO to measure code coverage and the Windows API for memory and process creation.
