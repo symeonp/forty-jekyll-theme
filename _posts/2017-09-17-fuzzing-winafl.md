@@ -355,7 +355,7 @@ The above script gives the following output:
 
 ![Running cBugId to triage the crashes..]({{ site.url }}/assets/images/crash_triage_bugid.png)
 
-Once I ran that for all my crashes, it's clearly showed that we're hitting the same bug.
+Once I ran that for all my crashes, it clearly showed that we're hitting the same bug.
 To confirm, let's fire up windbg: 
 
 ```
