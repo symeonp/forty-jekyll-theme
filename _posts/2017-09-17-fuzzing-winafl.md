@@ -11,15 +11,15 @@ In this blog post, I'll write about how I tried to fuzz the MSXML library using 
 
 If you haven't played around with WinAFL, it's a massive fuzzer created by Ivan (Google's Project Zero) based on the <a href="http://lcamtuf.coredump.cx/afl/">lcumtuf's AFL</a>
 which uses DynamoRIO to measure code coverage and the Windows API for memory and process creation.
-<a href="https://twitter.com/0vercl0k">Axel Souchet</a> has been activily contributing features such as <a href="https://github.com/ivanfratric/winafl/commit/691dc760690750752054794891f75fbce50fee56">corpus minimization</a>, latest afl stable builds, <a href="https://github.com/ivanfratric/winafl/commit/8aa1e138dd0284b1da5c844c5d21fc5ebe5d1c45">persistent execution mode</a> which will cover on the next blog post and the finally the <a href="https://github.com/ivanfratric/winafl/commit/992a68ba34df152e07453f0b592ff79aa8d4de9a">afl-tmin</a> tool.
+<a href="https://twitter.com/0vercl0k">Axel Souchet</a> has been actively contributing features such as <a href="https://github.com/ivanfratric/winafl/commit/691dc760690750752054794891f75fbce50fee56">corpus minimization</a>, latest afl stable builds, <a href="https://github.com/ivanfratric/winafl/commit/8aa1e138dd0284b1da5c844c5d21fc5ebe5d1c45">persistent execution mode</a> which will cover on the next blog post and the finally the <a href="https://github.com/ivanfratric/winafl/commit/992a68ba34df152e07453f0b592ff79aa8d4de9a">afl-tmin</a> tool.
 
 We will start by creating a test harness which will allow us to fuzz some parsing functionality within the library,
 calculate the coverage, minimise the test cases and finish by kicking off the fuzzer and triage the findings.
-Lastly, thanks to <a href="https://twitter.com/mkolsek">Mitja Kolsek</a> from <a href="https://0patch.com">0patch</a> for prividing the patch which will see how one can use the 0patch to patch this issue!
+Lastly, thanks to <a href="https://twitter.com/mkolsek">Mitja Kolsek</a> from <a href="https://0patch.com">0patch</a> for providing the patch which will see how one can use the 0patch to patch this issue!
 
 Using the above steps, I've managed to find a NULL pointer dereference on the <code>msxml6!DTD::findEntityGeneral</code> function,
 which I reported to Microsoft but got rejected as this is not a security issue. Fair enough, indeed the crash is crap, yet
-hopefully somebody might find interesting the techiniques I followed!
+hopefully somebody might find interesting the techniques I followed!
 
 
 <h2>The Harness</h2>
@@ -241,7 +241,7 @@ As previously, using IDA open all those .log files under <b>File -> Load File ->
 
 ![Code coverage using the Lighthouse plugin and IDA Pro.]({{ site.url }}/assets/images/msxml_code_coverage.png)
 
-Interestingly enough, notice how many <b>parse</b> functions do exist, and if you nagivate around the coverage you'll see that 
+Interestingly enough, notice how many <b>parse</b> functions do exist, and if you navigate around the coverage you'll see that 
 we've managed to hit a decent amount of interesting code.
 
 Since we do have some decent coverage, let's move on and finally fuzz it!
@@ -257,7 +257,7 @@ Running the above yields the following output:
 ![WinAFL running with a slow speed.]({{ site.url }}/assets/images/winafl_slow.png)
 
 As you can see, the initial code does that job - however the speed is very slow.
-Three executions per second will take long to give some proper results. Interestiingly enough, I've had luck in the past and with that speed (using python and <a href="https://github.com/aoh/radamsa">radamsa</a> prior the afl/winafl era) had success in finding bugs and within three days of fuzzing!
+Three executions per second will take long to give some proper results. Interestingly enough, I've had luck in the past and with that speed (using python and <a href="https://github.com/aoh/radamsa">radamsa</a> prior the afl/winafl era) had success in finding bugs and within three days of fuzzing!
 
 Let's try our best though and get rid of the part that slows down the fuzzing. If you've done some Windows programming you know that the following line initialises a COM object which could be the bottleneck of the slow speed:
 
@@ -325,7 +325,7 @@ Generally, I've tried to fuzz this binary with different test cases, however unf
 
 ![Fuzzing results after 12 days.]({{ site.url }}/assets/images/fuzzing_results.png)
 
-Notice that a total of 33 milion executions were performed and 26 unique crashes were discovered!
+Notice that a total of 33 million executions were performed and 26 unique crashes were discovered!
 
 In order to triage these findings, I've used the <a href="https://github.com/SkyLined/BugId">BugId</a> tool from <a hred="https://twitter.com/berendjanwever">SkyLined</a>,
 it's an excellent tool which will give you a detailed report regarding the crash and the exploitability of the crash.
@@ -508,12 +508,12 @@ msxml6!Name::create+0xf:
 03064ff8  00610061 00000061 ???????? ????????  a.a.a...????????
 ```
 
-The above unicode string is in fact our entiny from the test case, where the number 3 is the length aparently 
-(and the signature of the fuction: <code>Name *__stdcall Name::create(String *pS, const wchar_t *pch, int iLen, Atom *pAtomURN))</code>
+The above unicode string is in fact our entity from the test case, where the number 3 is the length aparently 
+(and the signature of the function: <code>Name *__stdcall Name::create(String *pS, const wchar_t *pch, int iLen, Atom *pAtomURN))</code>
 
 <h2>Conclusion</h2>
 As you can see, spending some time on Microsoft's APIs/documentation can be gold!
-Morover, refactoring some basic functions and pinpointing the issues that affect the performance can also lead to massive improvements!
+Moreover, refactoring some basic functions and pinpointing the issues that affect the performance can also lead to massive improvements!
 
 On that note I can't thank enough Ivan for porting the afl to Windows and creating this amazing project.
 Moreover thanks to Axel as well who's been actively contributing and adding amazing features.
