@@ -9,7 +9,7 @@ image: assets/images/msxml_fuzz.png
 <h2>Introduction</h2>
 In this blog post, I'll write about how I tried to fuzz the MSXML library using the <a href="https://github.com/ivanfratric/winafl">WinAFL</a> fuzzer.
 
-If you haven't played around with WinAFL, it's a massive fuzzer created by Ivan (Google's Project Zero) based on the <a href="http://lcamtuf.coredump.cx/afl/">lcumtuf's AFL</a>
+If you haven't played around with WinAFL, it's a massive fuzzer created by <a href="https://twitter.com/ifsecure">Ivan Fratric</a> based on the <a href="http://lcamtuf.coredump.cx/afl/">lcumtuf's AFL</a>
 which uses DynamoRIO to measure code coverage and the Windows API for memory and process creation.
 <a href="https://twitter.com/0vercl0k">Axel Souchet</a> has been actively contributing features such as <a href="https://github.com/ivanfratric/winafl/commit/691dc760690750752054794891f75fbce50fee56">corpus minimization</a>, latest afl stable builds, <a href="https://github.com/ivanfratric/winafl/commit/8aa1e138dd0284b1da5c844c5d21fc5ebe5d1c45">persistent execution mode</a> which will cover on the next blog post and the finally the <a href="https://github.com/ivanfratric/winafl/commit/992a68ba34df152e07453f0b592ff79aa8d4de9a">afl-tmin</a> tool.
 
