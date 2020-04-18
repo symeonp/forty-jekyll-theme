@@ -9,22 +9,22 @@ image: assets/images/header-grammar-based.png
 <h2>Introduction</h2>
 
 Welcome back to another fuzzing blog post. This time let's talk about grammar based fuzzing!
-I will be writing how I tried to fuzz a few PDF software such as Foxit and Adobe.
+I will be writing about how I tried to fuzz a few PDF software such as Foxit and Adobe.
 
 In order to do that, I used the following tools:
 
 - <a href="https://github.com/googleprojectzero/domato">domato</a>, grab it from its repo while it's fresh!
 
-- <a href="https://www.debenu.com/products/development/debenu-pdf-library/">Debenu Quick PDF Library</a>, for my campaign the current version as of this writing is 17.11 but YMMV, please note that you need to register in order to request a trial.
+- <a href="https://www.debenu.com/products/development/debenu-pdf-library/">Debenu Quick PDF Library</a>, for my campaign the current version as of writing this is 17.11 but YMMV, please note that you need to register in order to request a trial.
 
 - <a href="https://github.com/SkyLined/BugId">BugId</a> to help us triage any crashes/save crashers.
 
 - Your favourite PDF parser/software!
 
-So here's the idea: We will be installing the Debenu Quick PDF library and take advantage of its SDK and functions.
+So here's the idea: We will be installing the Debenu Quick PDF library and taking advantage of its SDK and functions.
 Why grammar based on a massive complex format such as a PDF you say? Remember that the PDF file format includes
-texts, images, multimedia, JavaScript and has very complex parsing code. As such, although a smart guided fuzzer can be used
-such as <a href="https://research.checkpoint.com/2018/50-adobe-cves-in-50-days/"> Checkpoint's research</a>, we can take advantage of this library which provides a tons of features from messing with HTML objects to adding images, fonts, or even adding
+text, images, multimedia, JavaScript and has very complex parsing code. As such, although a smart guided fuzzer 
+such as <a href="https://research.checkpoint.com/2018/50-adobe-cves-in-50-days/"> Checkpoint's research</a> can be used, we can take advantage of this library which provides a ton of features from messing with HTML objects to adding images, fonts, or even adding
 custom javascript!
 
 
@@ -32,7 +32,7 @@ custom javascript!
 
 From the wiki: A smart (model-based, grammar-based,or protocol-based fuzzer leverages the input model to generate a greater proportion of valid inputs. For instance, if the input can be modelled as an abstract syntax tree, then a smart mutation-based fuzzer would employ random transformations to move complete subtrees from one node to another. If the input can be modelled by a formal grammar, a smart generation-based fuzzer would instantiate the production rules to generate inputs that are valid with respect to the grammar. However, generally the input model must be explicitly provided, which is difficult to do when the model is proprietary, unknown, or very complex.
 
-In short, grammar based is aware of input structure, and instead of dumb fuzzing where we simply mutate bytes without having any knowledge of the target/file/network protocol specification we do have knowledge of the structure (such as the API presented here) and we will be generating test cased based on that specification.
+In short, grammar based is aware of input structure, and instead of dumb fuzzing where we simply mutate bytes without having any knowledge of the target/file/network protocol specification we do have knowledge of the structure (such as the API presented here) and we will be generating test cases based on that specification.
 
 There are many tutorials out there, but I recommend having a look at domato's page, where you can fully understand how it works.
 As mentioned earlier, we will be creating a grammar so the function
@@ -54,7 +54,7 @@ DrawHTMLText(65.862385207,9.2399248386,8.01963632388,"AAAAAAAAAAAAAAAAAAAAAAAAAA
 Once you obtain your trial and install it, you need to register the ActiveX DLL.
 This can be done by either running <code>%systemroot%\System32\regsvr32.exe</code> targeting the 64-bit version of the DLL
 (<b>DebenuPDFLibrary64AX1711.dll</b>) or <code>%systemroot%\SysWoW64\regsvr32.exe</code> to register the 32-bit version (<b>DebenuPDFLibraryAX1711.dll</b>)
-While you are there make sure to note down the <b>TRIAL_LICENSE_KEY.TXT</b> as you'll need it later for generated the files.
+While you are there make sure to note down the <b>TRIAL_LICENSE_KEY.TXT</b> as you'll need it later for generating the files.
 
 ![Registering the DLL.]({{ site.url }}/assets/images/dll_register.png)
 
@@ -202,7 +202,7 @@ Following the API specification and creating the <b><code>HTMLText</code></b> me
 <h3>Creating the template.pl</h3>
 
 
-Once you have the basic grammar, how are we going to call these function within our binding?
+Once you have the basic grammar, how are we going to call these functions within our binding?
 In fact, looking at previous <a href="https://github.com/googleprojectzero/domato/blob/master/canvas/template.html">github code</a>, we
 simply need to provide the sample code we were given with slightly modifications as seen below:
 
@@ -210,7 +210,7 @@ simply need to provide the sample code we were given with slightly modifications
 
 
 From the screenshot above, you can see that the code within the <b>&lt;DPLFuzz&gt;</b> will get substituted with the 
-<code>$QP->&lt;HTMLText&gt;</code> generated cases! Here's a sample how it looks like once domato has done its magic:
+<code>$QP->&lt;HTMLText&gt;</code> generated cases! Here's a sample of how it looks like once domato has done its magic:
 
 
 ![Generated test cases.]({{ site.url }}/assets/images/generated_cases_drawhtml.png)
@@ -367,8 +367,8 @@ if __name__ == '__main__':
 
 <h3>Saving the actual test cases</h3>
 
-Before we continue, notice how on the provided sample code <b>(hello-world.vbs)</b> this line was responsible to for saving the file name:
-<code>FileName = "hello-world.pdf"</code>. This one is hardcoded, and certianly does not suit us. 
+Before we continue, notice how on the provided sample code <b>(hello-world.vbs)</b> this line was responsible for saving the file name:
+<code>FileName = "hello-world.pdf"</code>. This one is hardcoded and certainly does not suit us. 
 In order to solve this issue, I've coded something very simple, a python script which finds the "placeholder" which
 is the hardcoded value <b>XXX</b>, and replaces it with <code>fuzz-&lt;num&gt;.pdf</code>:
 
@@ -385,7 +385,7 @@ spend some time and see how BugId can be integrated into your fuzzing workflow. 
 
 
 Essentially, here we are executing Domato's generator, replacing the <b>XXX</b> marker with the actual filename, executing
-the perl generated cases from domato, and finally save the generated PDFs to our test folder.
+the perl generated cases from domato, and finally saving the generated PDFs to our test folder.
 
 
 With the above modifications, once the <b>BAT</b> file is executed, it gives us the following screenshot:
@@ -400,28 +400,29 @@ With all these steps combined, let's run the cmd file, and see how this goes:
 
 ![Fuzzint it.]({{ site.url }}/assets/images/pdf_fuzz.png)
 
-Et voila! By using open source tools, and with some effort we are able now to fuzz not only Foxit software, but pretty
+Et voila! By using open source tools, and with some effort we are now able to fuzz not only Foxit software, but pretty
 much any PDF parser out there!
 
 
 <h3>The results</h3>
 
-Surprisingly, although I did a lot of effort from creating the grammar to modifying BugId, unfortunately the only crashes I managed to get were some meaningless NULL pointer dereferences. You'd expect that such software has been fuzzed to death, however as j00ru once
+Surprisingly, although I put in a lot of effort from creating the grammar to modifying BugId, unfortunately the only crashes I managed to get were some meaningless NULL pointer dereferences. You'd expect that such software has been fuzzed to death, however as j00ru once
 said <a href="https://twitter.com/j00ru/status/1163766807494365190?s=20">according to the bug hunter's law... there is always one more bug :)</a>
 
 
 <h2>Caveats</h2>
 
-Interestingly enough, I initially used the Visual Basic bindings. However, once a very large integer was passed to these methods,
+Interestingly, I initially used the Visual Basic bindings, however once a very large integer was passed to these methods,
 Visual Basic would complain and fail to generate the case as seen below:
 
 ![Visual Basic issues.]({{ site.url }}/assets/images/vb-issues.png)
 
-Please note how it also informs the user in case the parameters or the assignments are wrong, that's very handy and can be used for your advantage!
+Please note how it also informs the user in case the parameters or the assignments are wrong. 
+That's very handy and can be used to your advantage!
 
 <h2>Conclusion</h2>
 
 In this blog post we've covered a very brief introduction to grammar based fuzzing. We have used the Quick PDF library where we could
-apply this knowledge and demonstrated how we can create a grammar from scratch and fuzz a sample function within the API generating structure aware test cases. Finally, we've used BugId to iterate over our cases in case any crashes were found. The sky is the limit, this type of fuzzing can be used not only for this specific library, but for every file format which is text based or even programming languages! 
+apply this knowledge and have demonstrated how we can create a grammar from scratch. We have also fuzzed a sample function within the API generating structure aware test cases. Finally, we've used BugId to iterate over our cases in case any crashes were found. The sky is the limit, this type of fuzzing can be used not only for this specific library, but for every file format which is text based or even programming languages! 
 
 I hope you enjoyed as much as I did! As always, any ideas, comments, feedback is welcome!
