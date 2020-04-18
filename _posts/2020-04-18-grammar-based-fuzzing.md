@@ -370,7 +370,7 @@ if __name__ == '__main__':
 Before we continue, notice how on the provided sample code <b>(hello-world.vbs)</b> this line was responsible to for saving the file name:
 <code>FileName = "hello-world.pdf"</code>. This one is hardcoded, and certianly does not suit us. 
 In order to solve this issue, I've coded something very simple, a python script which finds the "placeholder" which
-is the hardcoded value <b>XXX</b>, and replaces it with <code>filename-&lt;num&gt;.pdf</code>:
+is the hardcoded value <b>XXX</b>, and replaces it with <code>fuzz-&lt;num&gt;.pdf</code>:
 
 
 ![Replacing the actual filename.]({{ site.url }}/assets/images/replace.png)
