@@ -518,8 +518,7 @@ Moreover, refactoring some basic functions and pinpointing the issues that affec
 On that note I can't thank enough Ivan for porting the afl to Windows and creating this amazing project.
 Moreover thanks to Axel as well who's been actively contributing and adding amazing features.
 
-Shouts to my colleague <a href="https://twitter.com/NeomindMusic">Javier</a> (we all have one of those heap junkie friends, right?) for motivating me to write this blog, <a href="https://twitter.com/richinseattle">Richard</a> who's been answering my silly questions and helping me all this time, Mitja from the 0patch team for building this patch and finally <a href="https://twitter.com/_argp">Patroklo</a> for teaching me a few tricks about fuzzing a few years ago!
+Shouts to my colleague <a href="https://twitter.com/NeomindMusic">Javier</a> (we all have one of those heap junkie friends, right?) for motivating me to write this blog, <a href="https://twitter.com/richinseattle">Richard</a> who's been answering my silly questions and helping me all this time, Mitja from the 0patch team for building this patch.
 
 <h2>References</h2>
-<a href="https://github.com/richinseattle/EvolutionaryKernelFuzzing/blob/master/slides/Evolutionary%20Kernel%20Fuzzing-BH2017-rjohnson-FINAL.pdf">Evolutionary Kernel Fuzzing-BH2017-rjohnson-FINAL.pdf</a><br/>
 <a href="https://labsblog.f-secure.com/2017/06/22/super-awesome-fuzzing-part-one/">Super Awesome Fuzzing, Part One</a>
