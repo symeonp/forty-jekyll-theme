@@ -2,7 +2,7 @@
 layout: post
 title: Grammar based fuzzing PDFs with Domato
 description: Using domato to fuzz PDF parsers
-image: assets/images/domato-grammar.png
+image: assets/images/header-grammar-based.png
 ---
 
 
