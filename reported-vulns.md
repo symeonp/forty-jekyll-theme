@@ -15,7 +15,7 @@ nav-menu: true
 		</header>
 
 <!-- Content -->
-<p>Here is a list with all the vulnerabilities I've been submitted since 2014:</p>
+<p>Here is a list with all the vulnerabilities I've submitted since 2014:</p>
 
 <div class="table-wrapper">
 	<table>
