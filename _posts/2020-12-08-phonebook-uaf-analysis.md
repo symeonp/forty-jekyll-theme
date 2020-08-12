@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Discovery and analysis of a Windows PhoneBook Use-After-Free vulnerablity (CVE-2020-1530)
+title: Discovery and analysis of a Windows PhoneBook Use-After-Free vulnerability (CVE-2020-1530)
 description: A step-by-step tutorial and analysis of a Windows vulnerability.
 image: assets/images/rasapi-header.png
 ---
@@ -88,7 +88,7 @@ TryNextAlternateOnFail=1
 
 <h2>Finding attack surface</h2>
 
-As a second step I've quickly grabbed a few samples and expiremented a bit. It turns out Windows ships already with an executable living in the the system32 directory called <b>rasphone.exe</b> which also gives you a lot of interesting parameters with their description:
+As a second step I've quickly grabbed a few samples and experimented a bit. It turns out Windows ships already with an executable living in the system32 directory called <b>rasphone.exe</b> which also gives you a lot of interesting parameters with their description:
 
 <img src="{{site.url}}/assets/images/rasphone_binary.png">
 
@@ -120,7 +120,7 @@ then eventually we hit our target (<code>RasEnumEntriesW</code>). So far so good
 This is the juicy part of this blog post! If you have been watching <a href="https://twitter.com/gamozolabs?lang=en">@gamozolabs</a>' streams you know that fuzzing is all about creating decent harnesses and exploring the right path codes!
 Where do we begin then? Well, for our good luck the previous link to <b>RasEnumEntriesA</b> documentation Microsoft provided us with a decent <a href="https://docs.microsoft.com/en-us/windows/win32/api/ras/nf-ras-rasenumentriesa">example</a> (MSDN and github can be your friends!).
 Reading the sample code, we need to call two times the <b>RasEnumEntries</b> function, one to get the required buffer size and
-another one which actually perfoms that real call with the right parameters. The sample is also missing a very important argument,
+another one which actually performs the real call with the right parameters. The sample is also missing a very important argument,
 the second parameter to the RasEnumEntries function is NULL, and thus "the entries are enumerated from all the remote access phone-book files in the AllUsers profile and the user's profile". Let's fix that:
 
 {% highlight C %}
@@ -250,7 +250,7 @@ Notice the drcov *.log files produced by DynamoRIO. I've simply loaded the RASAP
 <img src="{{site.url}}/assets/images/rasapi_coverage.png">
 
 From the screenshot above it can be observed that the coverage is only less than 10%. Ideally, you'd expect the file samples to at least be
-able to exercice 20% of the module. Neverthless I decided to move on and see if I get lucky.
+able to exercise 20% of the module. Nevertheless I decided to move on and see if I get lucky.
 
 
 <h2>Fuzzing it</h2>
@@ -272,7 +272,7 @@ recompiled winafl with latest DynamoRIO myself). While we are here, I can't emph
 pointing to <code>main()</code> or <code>my_target()</code>. 
 </div>
 
-Next let's quickly run winafl with the previoulsy obtained address:
+Next let's quickly run winafl with the previously obtained address:
 
 <code>afl-fuzz.exe -i Y:\samples -o Y:\pbk_fuzz -D Y:\DRIO7\bin32\ -t 20000 -- -target_module RasEntries.exe -coverage_module RASAPI32.dll -target_offset 0x01090 -fuzz_iterations 2000 -nargs 2 -- Y:\RasEntries.exe @@</code>
 
@@ -343,7 +343,7 @@ Here I'm calculating the offset from RASAPI32's base module (we won't be able to
 
 <img src="{{site.url}}/assets/images/memory_alloc.png">
 
-As expected the memory brekapoint was hit. We are just before free'ing that memory, and from the disassembly we can see
+As expected the memory breakpoint was hit. We are just before free'ing that memory, and from the disassembly we can see
 the <b>KERNELBASE!GlobalFree</b> function gets only one parameter: 
 
     push    dword ptr [edi+0Ch]
@@ -444,7 +444,7 @@ Let's have a closer look right before the allocation:
     0019f044  00000010   <== dwBytes
 
 So as seen above the length of the <b>"VPN1-0"</b> phone book entry is 6+1, which is user controlled, and once it gets multiplied times two and gets added with two,
-it's then used as a parameter to the <b>GlobalAlloc</b> method. So brilliant, we definately control this one!
+it's then used as a parameter to the <b>GlobalAlloc</b> method. So brilliant, we definitely  control this one!
 
 However, what caused the free? After spending some time, I figured out that the issue was this entry within the phonebook:
 
@@ -503,16 +503,16 @@ As seen previously the final value would be <b>eax*2+2</b> meaning: <b>0x44 byte
 <img src="{{site.url}}/assets/images/alloc_free.png">
 
 Notice above that after monitoring the allocs/frees, we can see that the memory allocator rounded
-the initial value to <b>0x48</b>, then three more allocs are hapenning and then eventually the address is being reused.
+the initial value to <b>0x48</b>, then three more allocs are happening and then eventually the address is being reused.
 
 Ultimately, we need to find out a way to somehow replace the freed object with something with same size.
 
 
 <h2>Conclusion</h2>
 
-Altough we do have a usually exploitable primitive such as a use-after-free, unfortunately in reality the lack of a scripting
+Although we do have a usually exploitable primitive such as a use-after-free, unfortunately in reality the lack of a scripting
 environment makes it very difficult - feel free to prove me wrong! I don't think there's an easy method to manipulate the objects, nor mess with the allocators/deallocators.
-Neverthless, perhaps someone with more skills is able to find a way to accomplish that.
+Nevertheless, perhaps someone with more skills is able to find a way to accomplish that.
 
 I hope you enjoyed this article and learnt something - I certainly did!
 
