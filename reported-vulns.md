@@ -15,7 +15,7 @@ nav-menu: true
 		</header>
 
 <!-- Content -->
-<p>Here is a list with all the vulnerabilities I've submitted since 2014:</p>
+<p>Here is a list with all the vulnerabilities I've been submitted since 2014:</p>
 
 <div class="table-wrapper">
 	<table>
@@ -27,6 +27,11 @@ nav-menu: true
 			</tr>
 		</thead>
 		<tbody>
+			<tr>
+				<td><a href="https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1530">CVE-2020-1530</a></td>
+				<td>Windows Remote Access Elevation of Privilege Vulnerability</td>
+				<td>2020</td>
+			</tr>
 			<tr>
 				<td><a href="https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0744">CVE-2020-0744</a></td>
 				<td>Windows GDI Information Disclosure Vulnerability</td>
