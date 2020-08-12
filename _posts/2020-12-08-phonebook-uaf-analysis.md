@@ -112,7 +112,7 @@ After loading the file by running <code>windbg.exe rasphone.exe -f sample.pbk</c
 
 <img src="{{site.url}}/assets/images/bp_hit.png">
 
-Bingo! Looking the stack backtrace it is clear that the rasphone binary calls the <code>RASDLG</code> API (a dialog wrapper around the RASAPI32 API) and
+Bingo! Looking at the stack backtrace it is clear that the rasphone binary calls the <code>RASDLG</code> API (a dialog wrapper around the RASAPI32 API) and
 then eventually we hit our target (<code>RasEnumEntriesW</code>). So far so good!
 
 <h2>Creating the harness</h2>
@@ -531,7 +531,7 @@ I hope you enjoyed this article and learnt something - I certainly did!
 			</tr>
 			<tr>
 				<td>11 August 2020</td>
-				<td>Microsoft acknowledged this issue as a Elevation of Privilege Vulnerability with a CVSS score of 7.8</td>
+				<td>Microsoft acknowledged this issue as Elevation of Privilege Vulnerability with a CVSS score of 7.8</td>
 			</tr>
 			<tr>
 				<td>11 August 2020</td>
